@@ -20,6 +20,9 @@ IMPORTANT: Output using the following format:
 <commented code>
 ```
 
+IMPORTANT: Do NOT skip lines or functions.
+You MUST output the entire file.
+
 EXAMPLE OUTPUT:
 ```overall
 """
