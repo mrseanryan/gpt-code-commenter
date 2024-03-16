@@ -35,7 +35,7 @@ import json
 
 def read_from_json_file(path_to_json, encoding='utf-8'):
     """
-    Function to read JSON data from a file.
+    Read JSON data from a file.
 
     Args:
     path_to_json (str): The path to the JSON file.
