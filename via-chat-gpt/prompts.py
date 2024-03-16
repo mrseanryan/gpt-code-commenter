@@ -1,81 +1,58 @@
+import json
 import config
 
 def ANNOTATE_SRC_CODE(src_code):
     return f'''
 Annotate this source code with documentation, using the appropriate format for that language.
-At the top of the file, add a comment on the overall file.
 
 SOURCE CODE:
 ```
 {src_code}
 ```
 
-IMPORTANT: Output using the following format:
-
-```overall
-<overall comment>
-```
-
-```code
-<commented code>
-```
-
-IMPORTANT: Do NOT skip lines or functions.
-You MUST output the entire file.
-Do NOT remove existing comments, instead add new comments.
+IMPORTANT: Do NOT skip elements (functions or classes), BUT if the element already has a comment then DO skip it.
 
 EXAMPLE OUTPUT:
-```overall
-"""
-Functions for reading from a JSON file. The `read_from_json_file` function reads JSON data from a file.
-"""
+```json
+{{
+    "overall_comment": "_QUOTE__QUOTE__QUOTE_Read and write JSON files._QUOTE__QUOTE__QUOTE_",
+    "elements": [{{
+        "name": "read_from_json_file",
+        "comment": "    _QUOTE__QUOTE__QUOTE_Read JSON data from a file.\\nArgs:\\npath_to_json (str): The path to the JSON file.\\nencoding (str): The encoding of the file. Default is 'utf-8'.\\nReturns:\\ndict: The JSON data read from the file.\\n_QUOTE__QUOTE__QUOTE_"
+    }},
+{{
+        "name": "write_to_json_file",
+        "comment": "    _QUOTE__QUOTE__QUOTE_Write JSON data to a file.\\nArgs:\\ndict (dict): The dictionary to be written to the file as JSON.\\nfile_path (str): The path to the output JSON file.\\nencoding (str): The encoding of the file. Default is 'utf-8'.\\nindent (int): The number of spaces to use for indentation. Default is 2.\\n_QUOTE__QUOTE__QUOTE_"
+    }}
+    ]
+}}
 ```
 
-```code
-import json
-
-def read_from_json_file(path_to_json, encoding='utf-8'):
-    """
-    Read JSON data from a file.
-
-    Args:
-    path_to_json (str): The path to the JSON file.
-    encoding (str): The encoding of the file. Default is 'utf-8'.
-
-    Returns:
-    dict: The JSON data read from the file.
-    """
-    with open(path_to_json, encoding=encoding) as f:
-        data = json.load(f)  # Load JSON data from the file
-        return data
-```
+Make sure that comments have correct indentation.
+IMPORTANT: Output MUST be valid JSON. Escape \" with _QUOTE_ and \"\"\" with _QUOTE__QUOTE__QUOTE_.
 '''
 
-def _clean_text(text):
-    lines = text.split('\n')
-    clean_lines = []
-    for line in lines:
-        is_clean = True
-        BAD_TEXTS = ['```json', '```']
-        for BAD in BAD_TEXTS:
-            if BAD in line:
-                is_clean = False
-                break
-        if is_clean:
-            clean_lines.append(line)
-    return '\n'.join(clean_lines)
+def _pick_longest(parts):
+    max_len = -1
+    longest = None
+    for part in parts:
+        if len(part) > max_len:
+            longest = part
+            max_len = len(part)
+    return longest
 
+def _clean_text(text):
+    BAD_TEXTS = ['```json', '```']
+    for BAD in BAD_TEXTS:
+        if BAD in text:
+            parts = text.split(BAD)
+            text = _pick_longest(parts)
+    return text
 
 def parse_response(response):
-    OVERALL_COMMENT_TOKEN = "```overall"
-    COMMENTED_CODE_TOKEN = "```code"
+    response = _clean_text(response)
 
-    file_parts = response.split(COMMENTED_CODE_TOKEN)
-    overall_comment = file_parts[0].split(OVERALL_COMMENT_TOKEN)[1]
-
-    code = file_parts[1]
-
-    return (_clean_text(overall_comment), _clean_text(code))
+    return json.loads(response)
 
 def dummy_response():
     if not config.is_dry_run:
