@@ -37,29 +37,39 @@ def _insert_comments(text, elements):
         found = False
         for line in lines:
             line_num += 1
-            if element['name'] in line:
+            if element['definition'] in line:
                 lines[line_num] = line + '\n' + _unquote(element['comment'])
                 found = True
                 break
         if not found:
-            util_print.print_warning(f"Could not match AI element '{element['name']}' to a line of the file")
+            util_print.print_warning(f"Could not match AI element '{element['definition']}' to a line of the file")
     return '\n'.join(lines)
 
 def _unquote(text):
     return text.replace("_QUOTE_", '"')
 
+def _is_comment_line(line):
+    line = line.strip()
+    comment_chars = ['"""', '#', '/*', '//', '--']
+    for comment_char in comment_chars:
+        if line.startswith(comment_char):
+            return True
+    return False
+
 def comment_file(path_to_src_file, options):
     util_print.print_section(f"Reading code from {[path_to_src_file]}")
     code = util_file.read_text_from_file(path_to_src_file)
     response = service_chat.send_prompt(prompts.ANNOTATE_SRC_CODE(code), dummy_response=prompts.dummy_response())
-    import pdb
-    pdb.set_trace()
     comments = prompts.parse_response(response)
 
     if options.out_dir is None:
         util_print.print_custom(comments)
     else:
-        text = _unquote(comments['overall_comment']) + '\n' + code
+        # only add the overall file comment, if the file does not already have a comment
+        if _is_comment_line(code):
+            text = code
+        else:
+            text = _unquote(comments['overall_comment']) + '\n' + code
         text = _insert_comments(text, comments['elements'])
         util_dir.ensure_dir_exists(options.out_dir)
         _write_new_code(text, os.path.basename(path_to_src_file), options.out_dir)
