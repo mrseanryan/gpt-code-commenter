@@ -22,6 +22,7 @@ IMPORTANT: Output using the following format:
 
 IMPORTANT: Do NOT skip lines or functions.
 You MUST output the entire file.
+Do NOT remove existing comments, instead add new comments.
 
 EXAMPLE OUTPUT:
 ```overall
