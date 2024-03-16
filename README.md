@@ -20,7 +20,11 @@ To comment files in a directory (is NOT recursive):
 python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
 ```
 
+note: to write back to the same file(s), simply specify `--out-dir` to point to the same directory.  But then please check the result before committing changes.
+
 ## Example
+
+Example documentation generated (published via pdoc to S3): [cornsnake documentation](http://docs.mrseanryan.cornsnake.s3-website-eu-west-1.amazonaws.com/).
 
 ### INPUT:
 
