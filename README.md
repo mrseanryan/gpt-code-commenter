@@ -15,7 +15,7 @@ python via-chat-gpt <path to source code file> [--out-dir <output directory>]
 To comment files in a directory (is NOT recursive):
 
 ```
-python via-chat-gpt <path to source code directory> [--out-dir <output directory>]
+python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
 ```
 
 ## Example
