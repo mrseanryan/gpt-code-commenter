@@ -11,8 +11,9 @@ def _print_usage_and_exit():
 
 class Options:
     def __init__(self):
-        out_dir = None
-        exclude = None
+        self.out_dir = None
+        self.exclude = None
+
     def try_parse_options(self, option, value):
         if option == "--out-dir":
             self.out_dir = value
