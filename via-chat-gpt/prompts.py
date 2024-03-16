@@ -1,13 +1,49 @@
-import json
-
 import config
 
 def ANNOTATE_SRC_CODE(src_code):
     return f'''
-Annotate this source code with documentation, using the appropriate format for that language:
+Annotate this source code with documentation, using the appropriate format for that language.
+At the top of the file, add a comment on the overall file.
 
+SOURCE CODE:
 ```
 {src_code}
+```
+
+IMPORTANT: Output using the following format:
+
+```overall
+<overall comment>
+```
+
+```code
+<commented code>
+```
+
+EXAMPLE OUTPUT:
+```overall
+"""
+This Python file contains a functions for reading from a JSON file. The `read_from_json_file` function reads JSON data from a file.
+"""
+```
+
+```code
+import json
+
+def read_from_json_file(path_to_json, encoding='utf-8'):
+    """
+    Function to read JSON data from a file.
+
+    Args:
+    path_to_json (str): The path to the JSON file.
+    encoding (str): The encoding of the file. Default is 'utf-8'.
+
+    Returns:
+    dict: The JSON data read from the file.
+    """
+    with open(path_to_json, encoding=encoding) as f:
+        data = json.load(f)  # Load JSON data from the file
+        return data
 ```
 '''
 
@@ -27,23 +63,31 @@ def _clean_text(text):
 
 
 def parse_response(response):
-    return _clean_text(response)
+    OVERALL_COMMENT_TOKEN = "```overall"
+    COMMENTED_CODE_TOKEN = "```code"
 
+    file_parts = response.split(COMMENTED_CODE_TOKEN)
+    overall_comment = file_parts[0].split(OVERALL_COMMENT_TOKEN)[1]
+
+    code = file_parts[1]
+
+    return (_clean_text(overall_comment), _clean_text(code))
 
 def dummy_response():
     if not config.is_dry_run:
         return None
 
     return '''
+```overall
+"""
+This Python file defines color constants and a function for colorizing text based on the color constants.
+"""
 ```
-# File: colors.py
-# Description: Contains color-related functionality including ANSI escape codes for text color formatting.
-# Author: [Author Name]
 
+```code
 from . import config
 
 class bcolors:
-    """Class containing ANSI escape codes for text color formatting."""
     HEADER = '\033[95m'
     DARK_BLUE = '\033[34m'
     DARK_MAGENTA = '\033[35m'
@@ -59,14 +103,14 @@ class bcolors:
 
 def colorize(text, color):
     """
-    Colorize the given text with the specified color.
+    Function to colorize text based on the provided color.
 
     Args:
-        text (str): The text to be colorized.
-        color (str): The ANSI escape code for the desired color.
+    text (str): The text to be colorized.
+    color (str): The color to apply to the text.
 
     Returns:
-        str: The colorized text.
+    str: The colorized text.
     """
     start_color = color if config.IS_COLOR_ENABLED else ""
     end_color = bcolors.ENDC if config.IS_COLOR_ENABLED else ""
@@ -75,30 +119,13 @@ def colorize(text, color):
 
 # Theming
 CONFIG_COLOR = bcolors.DARK_MAGENTA
-"""Color for configuration information."""
-
 IMPORTANT = bcolors.WARNING
-"""Color for important messages."""
-
 QUESTION_COLOR = bcolors.DARK_CYAN
-"""Color for questions."""
-
 RESULT_COLOR = bcolors.OKGREEN + bcolors.BOLD
-"""Color for results."""
-
 SECTION_COLOR = bcolors.OKBLUE + bcolors.BOLD
-"""Color for section headings."""
-
 TEST_SECTION_COLOR = bcolors.WARNING + bcolors.BOLD
-"""Color for test sections."""
-
 ERROR_COLOR = bcolors.FAIL + bcolors.BOLD
-"""Color for error messages."""
-
 WARNING_COLOR = bcolors.WARNING + bcolors.BOLD
-"""Color for warning messages."""
-
 END_COLORS = bcolors.ENDC
-"""End color code."""
 ```
 '''

@@ -2,7 +2,7 @@ import openai
 
 import config
 
-def _get_completion(prompt, model="gpt-3.5-turbo", temperature = config.temperature, messages = None, dummy_response = None):
+def _get_completion(prompt, model=config.model, temperature = config.temperature, messages = None, dummy_response = None):
     if config.is_dry_run:
         return dummy_response
 

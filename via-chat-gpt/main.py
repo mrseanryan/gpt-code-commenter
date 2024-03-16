@@ -26,9 +26,11 @@ def comment_file(path_to_src_file, out_dir):
     util_print.print_section(f"Reading code from {[path_to_src_file]}")
     code = util_file.read_text_from_file(path_to_src_file)
     response = service_chat.send_prompt(prompts.ANNOTATE_SRC_CODE(code), dummy_response=prompts.dummy_response())
-    result = prompts.parse_response(response)
+    (overall_comment, commented_code) = prompts.parse_response(response)
 
     if out_dir is None:
-        util_print.print_custom(result)
+        util_print.print_custom(overall_comment)
+        util_print.print_custom(commented_code)
     else:
-        _write_new_code(result, os.path.basename(path_to_src_file), out_dir)
+        text = overall_comment + commented_code
+        _write_new_code(text, os.path.basename(path_to_src_file), out_dir)
