@@ -33,6 +33,8 @@ def _write_new_code(result, file_name, out_dir):
 def _insert_comments(text, elements):
     lines = text.split('\n')
     for element in elements:
+        if not element['comment']:
+            continue
         line_num = -1
         found = False
         for line in lines:

@@ -29,7 +29,7 @@ EXAMPLE OUTPUT:
     "overall_comment": "_QUOTE__QUOTE__QUOTE_Read and write JSON files._QUOTE__QUOTE__QUOTE_",
     "elements": [{{
         "definition": "def read_from_json_file(path_to_json, encoding='utf-8'):",
-        "comment": "    _QUOTE__QUOTE__QUOTE_Read JSON data from a file.\\nArgs:\\npath_to_json (str): The path to the JSON file.\\nencoding (str): The encoding of the file. Default is 'utf-8'.\\nReturns:\\ndict: The JSON data read from the file.\\n_QUOTE__QUOTE__QUOTE_"
+        "comment": "    _QUOTE__QUOTE__QUOTE_Read JSON data from a file.\\n    Args:\\n    path_to_json (str): The path to the JSON file.\\n    encoding (str): The encoding of the file. Default is 'utf-8'.\\n    Returns:\\n    dict: The JSON data read from the file.\\n_QUOTE__QUOTE__QUOTE_"
     }}
     ]
 }}
