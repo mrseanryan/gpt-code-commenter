@@ -4,6 +4,8 @@ Automatically document code by passing it to an LLM (Chat-GPT).
 
 - With a simple prompt, we ask the LLM to annotate the given code, following conventions for that language.
 
+- `NOTE` - this tool still requires manual supervision: currently larger files may become truncated by the LLM.  By default the tool outputs to stdout OR to a new directory.
+
 ## Usage
 
 To comment a single file:
