@@ -23,7 +23,7 @@ IMPORTANT: Output using the following format:
 EXAMPLE OUTPUT:
 ```overall
 """
-This Python file contains a functions for reading from a JSON file. The `read_from_json_file` function reads JSON data from a file.
+Functions for reading from a JSON file. The `read_from_json_file` function reads JSON data from a file.
 """
 ```
 

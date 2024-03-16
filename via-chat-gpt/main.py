@@ -27,6 +27,7 @@ def comment_directory(path_to_src_dir, options):
 def _write_new_code(result, file_name, out_dir):
     out_file_path = os.path.join(out_dir, file_name)
     util_print.print_section(f"Saving commented code to {out_file_path}")
+    result += '\n'
     util_file.write_text_to_file(result, out_file_path)
 
 def comment_file(path_to_src_file, options):
