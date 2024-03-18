@@ -4,7 +4,7 @@ Automatically document code by passing it to an LLM (Chat-GPT).
 
 - With a simple prompt, we ask the LLM to annotate the given code, following conventions for that language.
 
-- `NOTE` - this tool still requires manual supervision: currently larger files may become truncated by the LLM.  By default the tool outputs to stdout OR to a new directory.
+- `NOTE` - this tool still requires manual supervision: If outputting back to the same location, please check the results before committing the changes. By default the tool outputs to stdout OR to a new directory.
 
 ## Usage
 
@@ -85,7 +85,7 @@ def write_to_json_file(dict, file_path, encoding='utf-8', indent=2):
 
 ## Set up
 
-### For openai (remote LLM):
+### [RECOMMENDED] For openai (remote LLM):
 
 ```shell
 cd via-chat-gpt
