@@ -137,6 +137,8 @@ pipenv run python via-chat-gpt ../test-resources/util_json.py
 
 ### For phi2 (local LLM via llama-cpp-python) [UNIX OR Windows] [EASIER TO INSTALL]
 
+- Results are only OK (Chat-GPT has much better results)
+
 - see [via-phi2-the-bloke README](./via-phi2-the-bloke/README.md)
 
 ### For phi2 (local LLM via transformers) [UNIX not Windows] [MORE DIFFICULT TO INSTALL]

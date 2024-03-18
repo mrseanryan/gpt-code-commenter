@@ -17,12 +17,6 @@ def _get_completion(prompt, dummy_response=None):
     if config.is_dry_run:
         return dummy_response
 
-    # xxxx
-    prompt = '''def print_prime(n):
-   """
-   Print all primes between 1 and n
-   """'''
-
     inputs = tokenizer(prompt, return_tensors="pt", return_attention_mask=False)
 
     outputs = model.generate(**inputs, max_length=2048)
