@@ -123,15 +123,15 @@ source ~/.zprofile
 
 ### Test OpenAI
 
+(cd via-chat-gpt)
+
 ```shell
-cd via-chat-gpt
 test-openai.sh
 ```
 
 or
 
 ```shell
-cd via-chat-gpt
 pipenv run python via-chat-gpt ../test-resources/util_json.py
 ```
 
@@ -198,12 +198,15 @@ Edit `config.py` and set is_gpu to True.
 
 ### Test phi2
 
+(cd via-phi2)
+
 ```shell
-cd via-phi2
 test-phi2.sh
 ```
 
 or
+
+(cd via-phi2)
 
 ```shell
 cd via-phi2
