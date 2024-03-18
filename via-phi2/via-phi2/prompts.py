@@ -3,42 +3,24 @@ import config
 
 def ANNOTATE_SRC_CODE(src_code):
     return f'''
-Comment the element definitions (classes and functions) of this source code with documentation, using the appropriate format for that language.
+Provide comments in JSON format for the classes and functions of this source code.
 
 SOURCE CODE:
 ```
 {src_code}
 ```
 
-If the element already has a comment then do NOT output for that element.
-
-
-EXAMPLE INPUT:
-```
-import json
-
-def read_from_json_file(path_to_json, encoding='utf-8'):
-    with open(path_to_json, encoding=encoding) as f:
-        data = json.load(f)
-        return data
-```
-
-EXAMPLE OUTPUT:
+OUTPUT FORMAT:
 ```json
 {{
-    "overall_comment": "_QUOTE__QUOTE__QUOTE_Read and write JSON files._QUOTE__QUOTE__QUOTE_",
+    "overall_comment": <overall comment>,
     "elements": [{{
-        "definition": "def read_from_json_file(path_to_json, encoding='utf-8'):",
-        "comment": "    _QUOTE__QUOTE__QUOTE_Read JSON data from a file.\\n    Args:\\n    path_to_json (str): The path to the JSON file.\\n    encoding (str): The encoding of the file. Default is 'utf-8'.\\n    Returns:\\n    dict: The JSON data read from the file.\\n_QUOTE__QUOTE__QUOTE_"
+        "name": <class or function name>,
+        "comment": <comment>
     }}
     ]
 }}
 ```
-
-IMPORTANT:
-- Make sure that comments have correct indentation.
-- Do NOT comment on elements that already have a comment.
-- Output MUST be valid JSON. Escape \" with _QUOTE_ and \"\"\" with _QUOTE__QUOTE__QUOTE_.
 '''
 
 def _pick_longest(parts):

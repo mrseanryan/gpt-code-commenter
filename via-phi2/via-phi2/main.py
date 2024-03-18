@@ -68,6 +68,7 @@ def comment_file(path_to_src_file, options):
         util_print.print_custom(comments)
     else:
         # only add the overall file comment, if the file does not already have a comment
+        text = ""
         if _is_comment_line(code):
             text = code
         else:

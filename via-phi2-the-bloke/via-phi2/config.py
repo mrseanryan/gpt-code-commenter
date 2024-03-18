@@ -10,4 +10,4 @@ model = "gpt-3.5-turbo"
 
 is_dry_run = False
 
-is_gpu = False
+is_gpu = True
