@@ -4,20 +4,20 @@ Automatically document code by passing it to an LLM (Chat-GPT).
 
 - With a simple prompt, we ask the LLM to annotate the given code, following conventions for that language.
 
-- `NOTE` - this tool still requires manual supervision: currently larger files may become truncated by the LLM.  By default the tool outputs to stdout OR to a new directory.
+- `NOTE` - this tool still requires manual supervision: If outputting back to the same location, please check the results before committing the changes. By default the tool outputs to stdout OR to a new directory.
 
 ## Usage
 
 To comment a single file:
 
 ```
-python via-chat-gpt <path to source code file> [--out-dir <output directory>]
+pipenv run python via-chat-gpt <path to source code file> [--out-dir <output directory>]
 ```
 
 To comment files in a directory (is NOT recursive):
 
 ```
-python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
+pipenv run python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
 ```
 
 note: to write back to the same file(s), simply specify `--out-dir` to point to the same directory.  But then please check the result before committing changes.
@@ -85,27 +85,31 @@ def write_to_json_file(dict, file_path, encoding='utf-8', indent=2):
 
 ## Set up
 
+### [RECOMMENDED] For openai (remote LLM):
+
+```shell
+cd via-chat-gpt
+```
+
 Unix:
 
 ```shell
+pip install pipenv
 export PYTHONPATH="${PYTHONPATH}:."
+pipenv install
 ```
 
 Windows:
 
 ```shell
+pip install pipenv
 set PYTHONPATH="%PYTHONPATH%";.
-```
-
-Then on both OS's:
-
-```shell
 pipenv install
 ```
 
 Set environment variable with your OpenAI key:
 
-```
+```shell
 export OPENAI_API_KEY="xxx"
 ```
 
@@ -113,14 +117,32 @@ Add that to your shell initializing script (`~/.zprofile` or similar)
 
 Load in current terminal:
 
-```
+```shell
 source ~/.zprofile
 ```
 
-## Test
+### Test OpenAI
 
-`test.sh`
+(cd via-chat-gpt)
+
+```shell
+test-openai.sh
+```
 
 or
 
-`pipenv run python via-chat-gpt/main.py ./test-resources/util_json.py`
+```shell
+pipenv run python via-chat-gpt ../test-resources/util_json.py
+```
+
+### For phi2 (local LLM via llama-cpp-python) [UNIX OR Windows] [EASIER TO INSTALL]
+
+- Results are only OK (Chat-GPT has much better results)
+
+- see [via-phi2-the-bloke README](./via-phi2-the-bloke/README.md)
+
+### For phi2 (local LLM via transformers) [UNIX not Windows] [MORE DIFFICULT TO INSTALL]
+
+- TODO fix reponse handling for this version
+
+- see [via-phi2 README](./via-phi2/README.md)

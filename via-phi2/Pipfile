@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cornsnake="~=0.0.46"
+packaging="~=24.0"
+transformers=">4.38.0"
+huggingface-hub=">=0.19.3,<1.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
