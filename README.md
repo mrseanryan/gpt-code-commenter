@@ -11,13 +11,13 @@ Automatically document code by passing it to an LLM (Chat-GPT).
 To comment a single file:
 
 ```
-python via-chat-gpt <path to source code file> [--out-dir <output directory>]
+pipenv run python via-chat-gpt <path to source code file> [--out-dir <output directory>]
 ```
 
 To comment files in a directory (is NOT recursive):
 
 ```
-python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
+pipenv run python via-chat-gpt <path to source code directory> [--out-dir <output directory>] [--exclude <file1.py,file2.ts>]
 ```
 
 note: to write back to the same file(s), simply specify `--out-dir` to point to the same directory.  But then please check the result before committing changes.
@@ -85,27 +85,31 @@ def write_to_json_file(dict, file_path, encoding='utf-8', indent=2):
 
 ## Set up
 
+### For openai (remote LLM):
+
+```shell
+cd via-chat-gpt
+```
+
 Unix:
 
 ```shell
+pip install pipenv
 export PYTHONPATH="${PYTHONPATH}:."
+pipenv install
 ```
 
 Windows:
 
 ```shell
+pip install pipenv
 set PYTHONPATH="%PYTHONPATH%";.
-```
-
-Then on both OS's:
-
-```shell
 pipenv install
 ```
 
 Set environment variable with your OpenAI key:
 
-```
+```shell
 export OPENAI_API_KEY="xxx"
 ```
 
@@ -113,14 +117,95 @@ Add that to your shell initializing script (`~/.zprofile` or similar)
 
 Load in current terminal:
 
-```
+```shell
 source ~/.zprofile
 ```
 
-## Test
+### Test OpenAI
 
-`test.sh`
+```shell
+cd via-chat-gpt
+test-openai.sh
+```
 
 or
 
-`pipenv run python via-chat-gpt/main.py ./test-resources/util_json.py`
+```shell
+cd via-chat-gpt
+pipenv run python via-chat-gpt ../test-resources/util_json.py
+```
+
+### For phi2 (local LLM) [MORE DIFFICULT TO INSTALL]
+
+```shell
+cd via-phi2
+```
+
+At time of writing, phi2 depends on a dev build of transformers, so it can be tricky to install.
+
+See the (model card)[https://huggingface.co/microsoft/phi-2] for details.
+
+```shell
+python -m pipenv run pip install transformers==4.38.2
+```
+
+OR if that does not work, try the latest dev version:
+
+```shell
+python -m pipenv run pip install git+https://github.com/huggingface/transformers
+```
+
+```shell
+python -m pipenv run pip install cornsnake==0.0.46 packaging==24.0
+```
+
+#### WITHOUT GPU:
+
+Install torch (without CUDA) - please check the [PyTorch site](https://pytorch.org/get-started/locally/#windows-pip) for your system.
+
+```shell
+python -m pipenv run pip install torch==2.2.1 torchvision==0.17.1
+```
+
+Edit `config.py` and set is_gpu to False.
+
+#### WITH GPU:
+
+Install CUDA to match your NVIDIA GPU - see [NVIDIA site](https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/index.html).
+
+Install torch (with CUDA) - please check the [PyTorch site](https://pytorch.org/get-started/locally/#windows-pip) for your system.
+
+- example installing torch with CUDA v12.1:
+
+```shell
+python -m pipenv run pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+```
+
+Install ninja, to speed up compile of flash-attn:
+
+```shell
+python -m pipenv run pip install ninja
+ninja --version
+```
+
+Install flash-atten:
+
+```shell
+python -m pipenv run pip install flash-attn --no-build-isolation
+```
+
+Edit `config.py` and set is_gpu to True.
+
+### Test phi2
+
+```shell
+cd via-phi2
+test-phi2.sh
+```
+
+or
+
+```shell
+cd via-phi2
+pipenv run python via-phi2 ../test-resources/util_json.py
+```

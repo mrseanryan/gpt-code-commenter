@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+cornsnake="~=0.0.46"
+openai="~=1.14.1"
+pipenv = "*"
+run = "*"
+python = "*"
 
 [dev-packages]
 
