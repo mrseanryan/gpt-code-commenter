@@ -6,7 +6,11 @@ Automatically document code by passing it to an LLM (Chat-GPT).
 
 - `NOTE` - this tool still requires manual supervision: If outputting back to the same location, please check the results before committing the changes. By default the tool outputs to stdout OR to a new directory.
 
+- for setup instructions, see `Setup` section below.
+
 ## Usage
+
+note: the scripts must be run from within the top-level `via-chat-gpt` folder.
 
 To comment a single file:
 
@@ -83,7 +87,7 @@ def write_to_json_file(dict, file_path, encoding='utf-8', indent=2):
         outfile.write(json_object)  # Write JSON data to the file
 ```
 
-## Set up
+## Setup
 
 ### [RECOMMENDED] For openai (remote LLM):
 
